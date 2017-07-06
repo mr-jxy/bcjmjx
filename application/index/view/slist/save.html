@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title> - 查看详情</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> 
+	{css href="__PUBLIC__/css/bootstrap.min.css,__PUBLIC__/css/font-awesome.min.css,__PUBLIC__/css/plugins/footable/footable.core.css" /}
+	{css href="__PUBLIC__/css/animate.css,__PUBLIC__/css/style.css" /}
+	{css href="__PUBLIC__/themes/default/css/umeditor.css" /}
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>详情</h5>
+                        <div class="ibox-tools">
+                        
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-horizontal">	
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">联系人</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="contacts" value="{$row.contacts}" disabled="true" class="form-control">
+                                </div>
+                            </div>
+							<div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">联系方式</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="contacts" value="{$row.phone}" disabled="true" class="form-control">
+                                </div>
+                            </div>
+							<div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">email</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="email" value="{$row.email}" disabled="true" class="form-control">
+                                </div>
+                            </div>
+							<div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">地区</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control m-b" name="rid"  disabled="true">
+                                        <option {equal name="$row.rid" value="$rlist.id"}selected="selected"{/equal} value="{$rlist.id}">{$rlist.name}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">设备型号</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="eq_id" value="{$row.eq_id}" disabled="true" class="form-control">
+                                </div>
+                            </div>
+							<div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">设备编号</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="eq_num" value="{$row.eq_num}" disabled="true" class="form-control">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">出厂日期</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="factory_date" value="{$row.factory_date}" disabled="true" class="form-control">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">设备故障描述</label>
+                                <div class="col-sm-10">
+									<textarea id="myEditor" name="info" disabled="true" style="width:1000px;height:240px;">{$row.info}</textarea>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+							
+							{gt name="$row.repair" value="0"}
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">保修点地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="eq_num" value="{$row.address}" disabled="true" class="form-control">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">保修点电话</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="eq_num" value="{$row.rphone}" disabled="true" class="form-control">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">保修点联系人</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="eq_num" value="{$row.contacts}" disabled="true" class="form-control">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+							{/gt}
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">报修进度</label>
+                                <div class="col-sm-10">
+                                    <select id="select" class="form-control m-b" name="type" disabled="true">
+										<option {equal name="$row.type" value="0"}selected="selected"{/equal} value="0" >未受理</option>
+										<option {equal name="$row.type" value="1"}selected="selected"{/equal} value="1" >已受理</option>
+										<option {equal name="$row.type" value="2"}selected="selected"{/equal} value="2" >维修中</option>
+                                        <option {equal name="$row.type" value="3"}selected="selected"{/equal} value="3" >在途中</option>
+										<option {equal name="$row.type" value="4"}selected="selected"{/equal} value="4" >已完成</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">报修回复</label>
+                                <div class="col-sm-10">
+                                    <textarea id="myinfo" name="answer" style=" width:100%;">{$row.answer}</textarea>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+	{js href="__PUBLIC__/js/jquery.min.js,__PUBLIC__/js/bootstrap.min.js" /}
+    <!-- 自定义js -->
+	{js href="__PUBLIC__/js/content.js" /}
+    <!-- iCheck -->
+	{js href="__PUBLIC__/js/plugins/iCheck/icheck.min.js" /}
+	{js href="__PUBLIC__/third-party/template.min.js,__PUBLIC__/umeditor.config.js,__PUBLIC__/umeditor.min.js" /}
+	<script type="text/javascript">
+		//实例化编辑器
+		var um = UM.getEditor('myEditor',{
+			readonly:true
+		});
+		var um = UM.getEditor('myinfo',{
+			readonly:true
+		});
+		
+		//选择下拉框
+		$("#select").change(function(){
+			var checkValue=$("#select").val();
+			if(checkValue == '4'){
+				$(".mydn").css("display","block");
+			}else{
+				$(".mydn").css("display","none");
+			}
+		});     
+	</script>
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+
+    
+    
+
+</body>
+
+</html>

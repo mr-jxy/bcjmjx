@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title> - 地区统计</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> 
+	{css href="__PUBLIC__/css/bootstrap.min.css,__PUBLIC__/css/font-awesome.min.css,__PUBLIC__/css/plugins/footable/footable.core.css" /}
+	{css href="__PUBLIC__/css/animate.css,__PUBLIC__/css/style.css" /}
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>地区统计列表</h5>
+
+                            <div class="ibox-tools">
+                                <a class="close-link" href="{:url('Repair/add')}">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+
+                            <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="8">
+                                <thead>
+                                <tr>
+                                    <th>地区</th>
+									<th>报修次数</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+								{foreach $list as $vo} 
+                                <tr>
+                                    <td>{$vo.regname}</td>
+                                    <td>{$vo.count}</td>
+                                </tr>
+                         		{/foreach}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- 全局js -->
+	{js href="__PUBLIC__/js/jquery.min.js,__PUBLIC__/js/bootstrap.min.js,__PUBLIC__/js/plugins/footable/footable.all.min.js" /}
+    <!-- 自定义js -->
+	{js href="__PUBLIC__/js/content.js" /}
+    <script>
+        $(document).ready(function() {
+
+            $('.footable').footable();
+            $('.footable2').footable();
+
+        });
+
+    </script>
+
+    
+    
+
+</body>
+
+</html>
