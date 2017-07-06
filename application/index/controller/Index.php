@@ -1,10 +1,115 @@
 <?php
 namespace app\index\controller;
-
-class Index
+use think\Controller;
+use think\Request;
+use think\Db;
+use think\Url;
+class Index extends Controller
 {
     public function index()
     {
-        return '<style type="text/css">*{ padding: 0; margin: 0; } .think_default_text{ padding: 4px 48px;} a{color:#2E5CD5;cursor: pointer;text-decoration: none} a:hover{text-decoration:underline; } body{ background: #fff; font-family: "Century Gothic","Microsoft yahei"; color: #333;font-size:18px} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.6em; font-size: 42px }</style><div style="padding: 24px 48px;"> <h1>:)</h1><p> ThinkPHP V5<br/><span style="font-size:30px">十年磨一剑 - 为API开发设计的高性能框架</span></p><span style="font-size:22px;">[ V5.0 版本由 <a href="http://www.qiniu.com" target="qiniu">七牛云</a> 独家赞助发布 ]</span></div><script type="text/javascript" src="http://tajs.qq.com/stats?sId=9347272" charset="UTF-8"></script><script type="text/javascript" src="http://ad.topthink.com/Public/static/client.js"></script><thinkad id="ad_bd568ce7058a1091"></thinkad>';
+    	if (Request::instance()->isPost()) {
+    		$rid = Request::instance()->Post('rid','','intval');
+            if ($rid == 0) {
+                $this->error('地区必须选择');
+            }else{
+                $fid = Db::name('region')->field('fid')->where('id',$rid)->find();
+                if ($fid['fid'] == 0) {
+                    $this->error('请选择详细区域');
+                }
+            }
+
+            $address = Request::instance()->Post('address','','trim');
+            if (empty($address)) {
+                $this->error('详细地址不能为空');
+            }
+
+    		$username = Request::instance()->Post('username','','trim');
+            if (empty($username)) {
+                $this->error('名称不能为空');
+            }
+
+            $contacts = Request::instance()->Post('contacts','','trim');
+            if (empty($contacts)) {
+                $this->error('联系人不能为空');
+            }
+
+            $phone = Request::instance()->Post('phone','','trim');
+            if (empty($phone)) {
+                $this->error('联系电话不能为空');
+            }else{
+                if (!preg_match("/^1[3|4|5|8|7][0-9]\d{4,8}$/", $phone)) {
+                    $this->error('联系电话格式不正确');
+                }
+            }
+
+            $email = Request::instance()->Post('email','','trim');
+            if (empty($email)) {
+                $this->error('email不能为空');
+            }
+
+            $cid = Request::instance()->Post('cid','','intval');
+            if ($cid == 0) {
+                $this->error('设备分类必须选择');
+            }
+
+            $eq_id = Request::instance()->Post('eq_id','','trim');
+            if (empty($eq_id)) {
+                $this->error('设备型号不能为空');
+            }
+
+            $eq_num = Request::instance()->Post('eq_num','','trim');
+            if (empty($eq_num)) {
+                $this->error('设备编号不能为空');
+            }
+
+            $factory_date = Request::instance()->Post('factory_date','','trim');
+            if (empty($factory_date)) {
+                $this->error('出厂日期不能为空');
+            }
+
+            $info = Request::instance()->Post('info','','trim');
+            if (empty($info)) {
+                $this->error('设备鼓掌描述不能为空');
+            }
+
+            /*生成订单号*/
+            $order_sn = order_sn();
+            $data = array(
+            	'order_sn' => $order_sn,
+            	'mobile' => $phone,
+            	'type' => '0',
+                'addtime' => $_SERVER['REQUEST_TIME']
+            );
+        	Db::name('repair_order')->insert($data);
+        	$data_list = array(
+        		'id' => Db::name('repair_order')->getLastInsID(),
+				'rid' => $rid,
+                'address' => $address,
+				'username' => $username,
+				'contacts' => $contacts,
+				'phone' => $phone,
+				'email' => $email,
+				'cid' => $cid,
+				'eq_id' => $eq_id,
+				'eq_num' => $eq_num,
+				'factory_date' => $factory_date,
+				'info' => $info
+			);
+			$is = Db::name('repair_list')->insert($data_list);
+			if ($is == 1) {
+				$this->success('添加成功', Url::build());
+			}else{
+				$this->error('添加失败');
+			}
+    	}else{
+    		$cat = Db::name('equipment_category')->select();
+    		$rlist = Db::name('region')->select();
+            $rlist = tree($rlist);
+            $rlist = printTree($rlist,'|-');
+            $this->assign('cat', $cat);
+            $this->assign('rlist', $rlist);
+    		return $this->fetch();
+    	}
     }
 }
