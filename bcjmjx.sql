@@ -3,14 +3,14 @@ Navicat MySQL Data Transfer
 
 Source Server         : localhost_3306321
 Source Server Version : 50547
-Source Host           : localhost:3306
+Source Host           : 127.0.0.1:3306
 Source Database       : bcjmjx
 
 Target Server Type    : MYSQL
 Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2017-07-05 17:55:30
+Date: 2017-07-06 15:26:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `bc_admin_user` (
   `name` varchar(100) NOT NULL,
   `password` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bc_admin_user
@@ -40,7 +40,7 @@ CREATE TABLE `bc_equipment` (
   `name` varchar(150) NOT NULL,
   `cid` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bc_equipment
@@ -55,7 +55,7 @@ CREATE TABLE `bc_equipment_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(150) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bc_equipment_category
@@ -73,7 +73,7 @@ CREATE TABLE `bc_region` (
   `name` varchar(150) NOT NULL,
   `fid` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bc_region
@@ -98,7 +98,7 @@ CREATE TABLE `bc_repair` (
   `phone` varchar(15) NOT NULL COMMENT '联系电话',
   `email` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bc_repair
@@ -118,24 +118,24 @@ CREATE TABLE `bc_repair_list` (
   `phone` varchar(15) NOT NULL COMMENT '联系电话',
   `email` varchar(200) NOT NULL COMMENT '邮箱',
   `cid` int(11) unsigned NOT NULL COMMENT '产品联动菜单',
-  `eq_id` varchar(200) NOT NULL COMMENT '设备型号',
+  `eq_id` int(11) NOT NULL COMMENT '设备型号',
   `eq_num` varchar(200) NOT NULL COMMENT '设备编号',
   `factory_date` varchar(25) NOT NULL COMMENT '出厂日期',
   `info` text NOT NULL COMMENT '设备故障描述',
   `address` varchar(200) NOT NULL COMMENT '详细地址',
+  `eq_info` varchar(200) NOT NULL COMMENT '没有匹配型号的话 备注 写入',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bc_repair_list
 -- ----------------------------
-INSERT INTO `bc_repair_list` VALUES ('1', '阿达', '2', '撒大声地', '15895959595', '2536411@qq.com', '1', '啊实打实大', '撒大大', '2017-06-23', '<p>啊实打实大</p>', '');
-INSERT INTO `bc_repair_list` VALUES ('2', '阿达', '2', '撒大声地', '15895959595', '2536411@qq.com', '1', '啊实打实大', '撒大大', '2017-06-23', '<p>啊实打实大</p>', '');
-INSERT INTO `bc_repair_list` VALUES ('3', '阿达', '2', '撒大声地', '15895959595', '2536411@qq.com', '1', '啊实打实大', '撒大大', '2017-06-23', '<p>啊实打实大</p>', '');
-INSERT INTO `bc_repair_list` VALUES ('4', 'wood', '2', '撒大声地', '15895959595', '2536411@qq.com', '1', '萨达', 'asdasdsd', '2017-06-23', '<p>按时打算打算打算</p>', '');
-INSERT INTO `bc_repair_list` VALUES ('5', 'wood', '2', '撒大声地', '15895959595', '2536411@qq.com', '1', '萨达', 'asdasdsd', '2017-06-23', '<p>按时打算打算打算</p>', '');
-INSERT INTO `bc_repair_list` VALUES ('6', '123456', '2', '撒大声地', '15895959595', '2536411@qq.com', '4', '啊实打实多', 'asdasdsd', '2017-06-29', '<p>啊实打实大厦上的公司对光反射大公司的公司的</p>', '');
-INSERT INTO `bc_repair_list` VALUES ('7', '奥斯丁', '2', '奥斯丁', '15891497899', '2536411@qq.com', '1', '萨达', '萨达', '2017-07-03', '<p>奥斯丁</p>', 'asd');
+INSERT INTO `bc_repair_list` VALUES ('1', '阿达', '2', '撒大声地', '15895959595', '2536411@qq.com', '1', '0', '撒大大', '2017-06-23', '<p>啊实打实大</p>', '', '');
+INSERT INTO `bc_repair_list` VALUES ('2', '阿达', '2', '撒大声地', '15895959595', '2536411@qq.com', '1', '0', '撒大大', '2017-06-23', '<p>啊实打实大</p>', '', '');
+INSERT INTO `bc_repair_list` VALUES ('3', '阿达', '2', '撒大声地', '15895959595', '2536411@qq.com', '1', '0', '撒大大', '2017-06-23', '<p>啊实打实大</p>', '', '');
+INSERT INTO `bc_repair_list` VALUES ('4', 'wood', '2', '撒大声地', '15895959595', '2536411@qq.com', '1', '0', 'asdasdsd', '2017-06-23', '<p>按时打算打算打算</p>', '', '');
+INSERT INTO `bc_repair_list` VALUES ('5', 'wood', '2', '撒大声地', '15895959595', '2536411@qq.com', '1', '0', 'asdasdsd', '2017-06-23', '<p>按时打算打算打算</p>', '', '');
+INSERT INTO `bc_repair_list` VALUES ('6', '123456', '2', '撒大声地', '15895959595', '2536411@qq.com', '4', '0', 'asdasdsd', '2017-06-29', '<p>啊实打实大厦上的公司对光反射大公司的公司的</p>', '', '');
 
 -- ----------------------------
 -- Table structure for `bc_repair_order`
@@ -152,7 +152,7 @@ CREATE TABLE `bc_repair_order` (
   `endtime` int(11) unsigned NOT NULL COMMENT '订单完成时间',
   PRIMARY KEY (`id`),
   KEY `repair` (`repair`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bc_repair_order
