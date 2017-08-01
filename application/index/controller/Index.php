@@ -9,15 +9,24 @@ class Index extends Controller
     public function index()
     {
     	if (Request::instance()->isPost()) {
+            //图片处理
+            $images = Request::instance()->Post('images/a');
+            if (!empty($images)) {
+                $images = implode(',', $images);
+            }else{
+                $images = '';
+            }
+
+
     		$rid = Request::instance()->Post('rid','','intval');
             if ($rid == 0) {
                 $this->error('地区必须选择');
-            }else{
-                $fid = Db::name('region')->field('fid')->where('id',$rid)->find();
-                if ($fid['fid'] == 0) {
-                    $this->error('请选择详细区域');
-                }
             }
+
+            /*$zid = Request::instance()->Post('zid','','intval');
+            if ($zid == 0) {
+                $this->error('市区必须选择');
+            }*/
 
             $address = Request::instance()->Post('address','','trim');
             if (empty($address)) {
@@ -53,8 +62,9 @@ class Index extends Controller
                 $this->error('设备分类必须选择');
             }
 
-            $eq_id = Request::instance()->Post('eq_id','','trim');
-            if (empty($eq_id)) {
+            $eq_id = Request::instance()->Post('eq_id','','intval');
+            $eq_info = Request::instance()->Post('eq_info','','trim');
+            if ($eq_id == 0 && empty($eq_info)) {
                 $this->error('设备型号不能为空');
             }
 
@@ -84,7 +94,8 @@ class Index extends Controller
         	Db::name('repair_order')->insert($data);
         	$data_list = array(
         		'id' => Db::name('repair_order')->getLastInsID(),
-				'rid' => $rid,
+				//'rid' => $zid,
+                'rid' => $rid,
                 'address' => $address,
 				'username' => $username,
 				'contacts' => $contacts,
@@ -92,29 +103,66 @@ class Index extends Controller
 				'email' => $email,
 				'cid' => $cid,
 				'eq_id' => $eq_id,
+                'eq_info' => $eq_info,
 				'eq_num' => $eq_num,
 				'factory_date' => $factory_date,
-				'info' => $info
+				'info' => $info,
+                'image' => $images
 			);
 			$is = Db::name('repair_list')->insert($data_list);
 			if ($is == 1) {
-				$this->success('添加成功', Url::build());
+                if (isPhone($phone)) {
+                    zendSms($phone,'【北村精密机械】您的订单提交成功,我们会尽快为您处理');                        
+                }
+                $admin_user = Db::query('select id,name,email from bc_admin_user where find_in_set('.$rid.',rid)');
+                if ($admin_user) {
+                    foreach ($admin_user as $key => $value) {
+                        if (!empty($value['email'])) {
+                            zendEmail($value['email'],'您有一个新的报修订单需要处理，联系人：'.$contacts.'， 联系电话：'.$phone.'请及时登录系统进行处理。');
+                        }
+                    }
+                }
+				$this->success('添加成功', Url::build('Index/prompt',array('order_sn'=>$order_sn)));
 			}else{
 				$this->error('添加失败');
 			}
     	}else{
     		$cat = Db::name('equipment_category')->select();
-    		$rlist = Db::name('region')->select();
-            $rlist = tree($rlist);
-            $rlist = printTree($rlist,'|-');
+    		$rlist = Db::name('region')->where('fid','<>','0')->select();
             $this->assign('cat', $cat);
             $this->assign('rlist', $rlist);
     		return $this->fetch();
     	}
     }
 
+    public function imguplod(){
+        //图片处理
+        $file = Request::instance()->file("fileList");
+        $info = $file->validate(['ext'=>'jpg,png,gif'])->move(ROOT_PATH . 'public' . DS . 'uploads');
+        if($info){   
+            $image = $info->getSaveName();
+        }else{
+            $this->error($value->getError());die;
+        }
+        return $image;
+        
+    }
+
     public function ld(){
         $cid = Request::instance()->param('cid','','trim');
-        echo $cid;
+        $list = Db::name('equipment')->where(array('cid' => $cid))->select();
+        echo json_encode($list);
+    }
+
+    public function rld(){
+        $fid = Request::instance()->param('fid','','trim');
+        $list = Db::name('region')->where(array('fid' => $fid))->select();
+        echo json_encode($list);
+    }
+
+    public function prompt(){
+        $order_sn = Request::instance()->param('order_sn','','trim');
+        $this->assign('order_sn', $order_sn);
+        return $this->fetch();
     }
 }

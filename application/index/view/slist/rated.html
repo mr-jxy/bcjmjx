@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<style>
+ul, li, ol { list-style: none; }
+/*星星样式*/
+.star_score {width:160px; height:21px;  position:relative; }
+.star_score a{ height:21px; display:block; text-indent:-999em; position:absolute;left:0;}
+#starttwo .star_score { background:url(images/zdpjxxbg.png) repeat-x;}
+#starttwo .star_score a:hover{ background:url(images/zdpjxx.png) repeat-x;left:0;}
+#starttwo .star_score a.clibg{ background:url(images/zdpjxx.png) repeat-x;left:0;}
+</style>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+
+
+    <title> - 查询</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico">
+	{css href="__PUBLIC__/css/lib_5e96991.css,__PUBLIC__/css/zd_css.css" /}
+	<script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+</head>
+<body class=" hPC" style="padding-bottom: 60px; background:#f4f4f4;">
+
+
+<div id="pager">
+<div id="wrapper">
+       
+
+<div class="menu_header">
+    <div class="menu_topbar">
+        <span class="head_title">评价</span>
+        <a href="javascript:history.go(-1);"><span class="head_btn_left">返回</span></a>
+        
+    </div>
+</div>
+        <div id="fis_elm__3">
+            <div id="shopcomment-add-wrapper">
+			<form method="post" action="{:url('Slist/rated')}" class="form-horizontal">
+                <div id="widget-shopcomment-add">
+                    <div class="gradecon" id="Addnewskill_119">
+                        <ul class="rev_pro clearfix">
+                            <li class="clearfix">
+                                <span class="revtit">对本次报修的评价</span>
+                                <div class="zdpj_tit">
+                                    <i>{$rname}</i>
+									
+                                    <div id="startone" class="block clearfix" data-type="store">
+        								<div  class="star_score"></div>
+                                        <span id="star1" class="fenshu" style="display:none">1</span>
+										<input type="hidden" name="fenshu" id="myf">
+                                    </div>
+                                </div>
+                                <div class="zdpj_ipt">
+                                    <textarea id="con1" name="content" required class="text-area comment-desc" placeholder="尚未进行评价，点击此处立即评价！"></textarea>
+									<input type="hidden" name="id" value="{$id}">
+                                </div>
+                            </li>
+                            
+                            
+                        </ul>
+
+                    </div>
+                </div>
+                <button class="zdddpj_tjpj" type="submit"  data-node="comment-btn">提交评价
+                </button>
+			</form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{js href="__PUBLIC__/js/jquery-1.8.0.min.js,__PUBLIC__/js/bootstrap.min.js,__PUBLIC__/js/startScore.js" /}
+<script>
+	scoreFun($("#startone"), {
+		fen_d: 22, //每一个a的宽度
+		ScoreGrade: 5 //a的个数 10或者
+	});
+</script>
+<script>
+    $('#star1').on('DOMNodeInserted',function(){
+        var txt = $('#star1').text();
+		$('#myf').val(txt);        
+    })
+</script>
+</body>
+</html>
+

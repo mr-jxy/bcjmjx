@@ -12,7 +12,7 @@ class Login extends Controller
     	if (Request::instance()->isPost()) {
     		$username = Request::instance()->Post('name','','trim');
     		if (!empty($username)) {
-    			$user = Db::name('admin_user')->field('password')->where('name', $username)->find();
+    			$user = Db::name('admin_user')->field('id,password,rid')->where('name', $username)->find();
     			if (!empty($user)) {
     				$password = Request::instance()->Post('password','','trim');
     				if (!empty($password)) {

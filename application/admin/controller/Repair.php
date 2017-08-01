@@ -5,12 +5,14 @@ use think\Controller;
 use think\Request;
 use think\Db;
 use think\Url;
+use think\Session;
 class Repair extends Common
 {
     public function index()
     {
         $user = new User;
-        $list = $user::userinfo();
+        $data = '*';
+        $list = $user::userinfo($data,'');
     	$this->assign('list',$list);
         return $this->fetch();
     }
@@ -27,10 +29,17 @@ class Repair extends Common
                 $this->error('密码不能为空');
             }
 
-            $rid = Request::instance()->Post('rid','','intval');
-            if ($rid == 0) {
-                $this->error('地区必须选择');
+            $rids = Request::instance()->Post('rid/a');
+            foreach ($rids as $key => $value) {
+                $value = intval($value);
+                if ($value == 0) {
+                    unset($rids[$key]);
+                }
             }
+            if (empty($rids)) {
+                $this->error('负责区域必须选择');
+            }
+            $rids = implode(',',$rids);
 
             $address = Request::instance()->Post('address','','trim');
             if (empty($address)) {
@@ -55,7 +64,7 @@ class Repair extends Common
             $data = array(
                 'username' => $username,
                 'password' => md5($password),
-                'rid' => $rid,
+                'rid' => $rids,
                 'address' => $address,
                 'contacts' => $contacts,
                 'phone' => $phone,
@@ -68,9 +77,22 @@ class Repair extends Common
                 $this->error('添加失败');
             }
     	}else{
-            $rlist = Db::name('region')->select();
-            $rlist = tree($rlist);
-            $rlist = printTree($rlist,'|-');
+            $aid = Session::get('admin.id');
+            if ($aid > 1) {
+                $arid = Session::get('admin.rid');
+                $where = array(
+                    'id' => array(
+                        '0' => 'in',
+                        '1' => $arid
+                        /*'1' => $rids*/
+                    )
+                );
+                $rlist = Db::name('region')->where($where)->select();
+            }else{
+                $rlist = Db::name('region')->select();
+                $rlist = tree($rlist);
+                $rlist = printTree($rlist,'|-');
+            }
             $this->assign('rlist',$rlist);
     		return $this->fetch();
     	}
@@ -85,10 +107,17 @@ class Repair extends Common
                     $this->error('名称不能为空');
                 }
 
-                $rid = Request::instance()->Post('rid','','intval');
-                if ($rid == 0) {
-                    $this->error('地区必须选择');
+                $rids = Request::instance()->Post('rid/a');
+                foreach ($rids as $key => $value) {
+                    $value = intval($value);
+                    if ($value == 0) {
+                        unset($rids[$key]);
+                    }
                 }
+                if (empty($rids)) {
+                    $this->error('管辖区域必须选择');
+                }
+                $rids = implode(',',$rids);
 
                 $address = Request::instance()->Post('address','','trim');
                 if (empty($address)) {
@@ -112,12 +141,19 @@ class Repair extends Common
     			
     			$data = array(
                     'username' => $username,
-                    'rid' => $rid,
+                    'rid' => $rids,
                     'address' => $address,
                     'contacts' => $contacts,
                     'phone' => $phone,
                     'email' => $email
                 );
+
+                $password = Request::instance()->Post('password','','trim');
+                if (!empty($password)) {
+                    $password = md5($password);
+                    $data['password'] = $password;
+                }
+
     			$is = Db::name('repair')->where('id',$id)->update($data);
     			if ($is) {
     				$this->success('修改成功', Url::build('Repair/index'));
@@ -125,11 +161,29 @@ class Repair extends Common
     				$this->error('更新失败');die;
     			}
     		}else{
-                $rlist = Db::name('region')->select();
-                $rlist = tree($rlist);
-                $rlist = printTree($rlist,'|-');
+                $aid = Session::get('admin.id');
+                if ($aid > 1) {
+                    $arid = Session::get('admin.rid');
+                    $where = array(
+                        'id' => array(
+                            '0' => 'in',
+                            '1' => $arid
+                            /*'1' => $rids*/
+                        )
+                    );
+                    $rlist = Db::name('region')->where($where)->select();
+                }else{
+                    $rlist = Db::name('region')->select();
+                    $rlist = tree($rlist);
+                    $rlist = printTree($rlist,'|-');
+                }
+
                 $row = Db::name('repair')->where('id',$id)->find();
+                $rids = explode(',', $row['rid']);
+                $rids_count = count($rids);
                 $this->assign('rlist',$rlist);
+                $this->assign('rids',$rids);
+                $this->assign('rids_count',$rids_count-1);
     			$this->assign('row',$row);
     			return $this->fetch();
     		}

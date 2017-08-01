@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 
 
     <title> - FooTable</title>
@@ -12,12 +12,6 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico"> 
-	<link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
-    <link href="css/plugins/footable/footable.core.css" rel="stylesheet">
-
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css?v=4.1.0" rel="stylesheet">
 	{css href="__PUBLIC__/css/bootstrap.min.css,__PUBLIC__/css/font-awesome.min.css,__PUBLIC__/css/plugins/footable/footable.core.css" /}
 	{css href="__PUBLIC__/css/animate.css,__PUBLIC__/css/style.css" /}
 </head>
@@ -66,18 +60,18 @@
 											{case value="0"}未受理{/case}
 											{case value="1"}已受理{/case}
 											{case value="2"}维修中{/case}
-											{case value="3"}在途中{/case}
+											<!--{case value="3"}在途中{/case}-->
 											{case value="4"}已完成{/case}
 										{/switch}
 									</td>
 									<td>{$vo.regname}</td>
-                                    <td><a href="{:url('Delegate/y_save',array('id'=>$vo.id))}">修改</a></td>
+                                    <td><a href="{:url('Delegate/y_save',array('id'=>$vo.id))}">查看</a></td>
                                 </tr>
                          		{/foreach}
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="8">
                                         <ul class="pagination pull-right"></ul>
                                     </td>
                                 </tr>

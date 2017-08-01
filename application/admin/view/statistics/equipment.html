@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 
 
     <title> - 设备报修统计</title>
@@ -18,7 +18,30 @@
 
 <body class="gray-bg">
     <div class="wrapper wrapper-content animated fadeInRight">
-
+			<div class="row">
+				<div class="col-sm-8">
+					<div class="ibox float-e-margins">
+						
+						<div class="ibox-content">
+							<form role="form" class="form-inline" method="post" action="{:url('Statistics/equipment_export')}">
+								<div class="form-group">
+									<input placeholder="开始日期" id="hello" name="starttime" class="laydate-icon form-control layer-date" required> - 
+								</div>
+								<div class="form-group">
+									<input placeholder="结束日期" onclick="laydate({istime: true, format: 'YYYY-MM-DD'})" name="endtime" class="laydate-icon form-control layer-date" required>
+								</div>
+								<div class="checkbox m-l m-r-xs">
+									<label class="i-checks">
+									</label>
+								</div>
+								<button class="btn btn-white" type="submit">导出</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			
             <div class="row">
                 <div class="col-sm-12">
                     <div class="ibox float-e-margins">
@@ -43,7 +66,7 @@
                                 <tbody>
 								{foreach $list as $vo} 
                                 <tr>
-                                    <td>{$vo.eq_id}</td>
+                                    <td>{$vo.ename}</td>
                                     <td>{$vo.count}</td>
                                 </tr>
                          		{/foreach}
@@ -61,11 +84,27 @@
                     </div>
                 </div>
             </div>
+			
+			<div class="row">
+				<div class="col-sm-9" style="padding-right:0;">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title" style="border-bottom:none;background:#fff;">
+							<h5>统计图表</h5>
+						</div>
+						<div class="ibox-content" style="border-top:none;">
+							<div id="yesterday" style="height:217px;">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
         </div>
     <!-- 全局js -->
 	{js href="__PUBLIC__/js/jquery.min.js,__PUBLIC__/js/bootstrap.min.js,__PUBLIC__/js/plugins/footable/footable.all.min.js" /}
     <!-- 自定义js -->
-	{js href="__PUBLIC__/js/content.js" /}
+	{js href="__PUBLIC__/js/plugins/iCheck/icheck.min.js,__PUBLIC__/js/plugins/layer/laydate/laydate.js" /}
+	<!--图表-->
+	{js href="__PUBLIC__/js/echarts.simple.min.js" /}
     <script>
         $(document).ready(function() {
 
@@ -75,7 +114,63 @@
         });
 
     </script>
+	<script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+		//外部js调用
+        laydate({
+            elem: '#hello', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+            event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+        });
 
+        //日期范围限制
+        var start = {
+            elem: '#start',
+            format: 'YYYY/MM/DD hh:mm:ss',
+            min: laydate.now(), //设定最小日期为当前日期
+            max: '2099-06-16 23:59:59', //最大日期
+            istime: true,
+            istoday: false,
+            choose: function (datas) {
+                end.min = datas; //开始日选好后，重置结束日的最小日期
+                end.start = datas //将结束日的初始值设定为开始日
+            }
+        };
+        var end = {
+            elem: '#end',
+            format: 'YYYY/MM/DD hh:mm:ss',
+            min: laydate.now(),
+            max: '2099-06-16 23:59:59',
+            istime: true,
+            istoday: false,
+            choose: function (datas) {
+                start.max = datas; //结束日选好后，重置开始日的最大日期
+            }
+        };
+        laydate(start);
+        laydate(end);
+    </script>
+	<script>
+		var myChart = echarts.init(document.getElementById('yesterday'));
+		var option = {
+            color: ['#3398DB'],
+            xAxis: {
+                data: [{$n_str}]
+            },
+            yAxis: {},
+            series: [{
+                name: '次数',
+                type: 'bar',
+				barWidth: '20%',
+                data: [{$c_str}]
+            }]
+        };
+		myChart.setOption(option);
+	</script>
     
     
 

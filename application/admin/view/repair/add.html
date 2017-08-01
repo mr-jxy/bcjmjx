@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 
 
     <title> - 基本表单</title>
@@ -30,15 +30,16 @@
                     </div>
                     <div class="ibox-content">
                         <form method="post" action="{:url('Repair/add')}" class="form-horizontal">
+							
 							<div class="form-group">
-                                <label class="col-sm-2 control-label">选择地区</label>
+                                <label class="col-sm-2 control-label">负责区域</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control m-b" name="rid">
-										<option value="0">请选择</option>
-										{foreach $rlist as $vo} 
-                                        <option value="{$vo.id}">{$vo.name}</option>
+                                    <select id="select" class="form-control m-b" style="width:80%; float:left;" name="rid[]" required>
+										<option value="0" >请选择</option>
+										{foreach $rlist as $vo}
+										<option value="{$vo.id}" >{$vo.name}</option>
 										{/foreach}
-                                    </select>
+									</select><span id="jiahao" style="float:right; font-size:25px; font-weight:bold;"> ＋ </span>																		
                                 </div>
                             </div>
 							<div class="hr-line-dashed"></div>
@@ -110,12 +111,27 @@
 	{js href="__PUBLIC__/js/content.js" /}
     <!-- iCheck -->
 	{js href="__PUBLIC__/js/plugins/iCheck/icheck.min.js" /}
+	<script>
+	$('#jiahao').click(function(){
+		$('#select').after($('#select').clone(true));
+		if ($(this).prev().prev('#jianhao').length > 0 ) { 
+			 
+		}else{
+			$(this).prev().prev().after("<span id='jianhao' style='float:left; font-size:25px; font-weight:bold;'> － </span>");
+		} 
+	});
+	</script>
     <script>
         $(document).ready(function () {
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
             });
+			$(document).on("click","#jianhao",function(){
+				$('#select').remove();
+				$(this).prev().after($(this).clone(true));
+				$(this).remove();
+			});
         });
     </script>
 

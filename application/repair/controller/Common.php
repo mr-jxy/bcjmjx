@@ -1,4 +1,4 @@
-<?
+<?php
 namespace app\repair\controller;
 use think\Controller;
 use think\Session;

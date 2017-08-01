@@ -7,12 +7,12 @@ use think\Db;
 */
 class User extends Model
 {
-	public static function userinfo(){
-		return Db::name('repair')->alias('r')->join('bc_region rg','r.rid = rg.id')->field('r.*,rg.name as rname')->select();
+	public static function userinfo($data,$where,$order = 'id desc'){
+		return Db::name('repair')->field($data)->where($where)->order($order)->select();
 	}
 
-	public static function n_list($data,$where){
-		return Db::name('repair_order')->alias('r')->join('bc_repair_list rl','r.id = rl.id')->field($data)->where($where)->select();
+	public static function n_list($data,$where,$order = 'r.id desc'){
+		return Db::name('repair_order')->alias('r')->join('bc_repair_list rl','r.id = rl.id','LEFT')->field($data)->where($where)->order($order)->select();
 	}
 }
 ?>

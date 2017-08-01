@@ -4,18 +4,166 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 
 
-    <title> - 基本表单</title>
+    <title> - 表单</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico"> 
 	{css href="__PUBLIC__/css/bootstrap.min.css,__PUBLIC__/css/font-awesome.min.css,__PUBLIC__/css/plugins/footable/footable.core.css" /}
 	{css href="__PUBLIC__/css/animate.css,__PUBLIC__/css/style.css" /}
-	{css href="__PUBLIC__/themes/default/css/umeditor.css" /}
+	{css href="__PUBLIC__/themes/default/css/umeditor.css,__PUBLIC__/control/css/zyUpload.css" /}
 </head>
+<style>
+*{
+	margin:0 auto;
+	padding: 0;
+	font-family: Microsoft Yahei;
+	}
+ol,ul,li{
+	list-style:none;
+	}
+img{
+	border:0;
+	display: block;
+	}
+i,s,em {
+	font-style: normal;
+	text-decoration: none;
+	}
+body {
+	max-width: 100%;
+	margin: 0 auto;
+}
+.footable-odd th {
+	background: #fff
+}
+.logo {
+	text-align: center;
+	font-size: 20px;
+	color: #003F7E;
+}
+.logo .logoimg {
+	width: 40%;
+	margin: 10px auto;
+	display: block
+}
+.logo p {
+	margin-top: 20px;
+	font-size: 1.5em;
+}
+.logo .ico {
+	width: 30%;
+	margin: 20px auto;
+	display: block
+}
+.m-b {
+	margin-bottom: 0px;
+}
+.hr-line-dashed {
+	border-top: 1px dashed #e7eaec;
+	color: #FFF;
+	background-color: #FFF;
+	height: 1px;
+	margin: 5px 0;
+}
+	.bccx_box {
+		width: 94%;
+		background: #fff;
+		border: 1px solid #dee5e7;
+		margin-top: 20px;
+	}
+	.bccx_tit {
+		background: #f6f8f8;
+		height: 40px;
+		line-height: 40px;
+		width: 100%;
+		border-bottom: 1px solid #dee5e7;
+	}
+	.bccx_tit span {
+		margin-left: 3%;
+		color: #000;
+		font-size: 1.2em;
+	}
+	.bccx_m {
+		width: 94%;
+		position: relative;
+	}
+	.bccx_m a.bddh {
+		position: absolute;
+		right: 3%;
+		top: 28px;
+		display: block;
+		padding: 5px 10px;
+		background: #7468bd;
+		border-radius: 3px;
+		color: #fff;
+	}
+	.bccx_m dl {
+		padding-top: 10px;
+	}
+	.bccx_m dl dt {
+		font-size: 1.3em;
+		color: #000;
+		line-height: 35px;
+	}
+	.bccx_m dl dd {
+		font-size: 1.1em;
+		color: #000;
+		line-height: 30px;
+	}
+	.bccx_m dl dd i {
+		font-size: 1.2em;
+		color: #003f7e;
+		line-height: 30px;
+	}
+	.bccx_m dl dd img {
+		margin: 20px auto;
+		max-width: 80%;
+	}
+	.bccx_m ul {
+	}
+	.bccx_m ul li {
+		border-top: 1px solid #e7eaec;
+		padding: 10px 0;
+	}
+	.bccx_m ul li:first-child {
+		border-top: none;
+	}
+	.bccx_m ul li span {
+		font-size: 1.1em;
+		color: #003f7e;
+		line-height: 30px;
+	}
+	.bccx_m ul li i {
+		font-size: 1.1em;
+		color: #003f7e;
+		line-height: 30px;
+		margin-left: 10px;
+	}
+	.bccx_m ul li p {
+		font-size: 1em;
+		color: #595959;
+		line-height: 20px;
+		margin-top: 10px;
+	}
+	.bccx_m ul li img {
+		margin: 20px auto;
+		max-width: 80%;
+	}
+	.ddpj {
+		float:right;
+		line-height:30px;
+		background:#7468bd;
+		color:#fff;
+		padding:0 10px;
+		border-radius:3px;
+		margin-right:5%;
+	}
+	
+</style>
 
 <body class="gray-bg">
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -30,16 +178,32 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form method="post" action="{:url('Delegate/n_save')}" class="form-horizontal">
+                        <form method="post" action="{:url('Delegate/n_save')}" class="form-horizontal" enctype="multipart/form-data">
 							<div class="form-group">
                                 <label class="col-sm-2 control-label">修改进度</label>
                                 <div class="col-sm-10">
                                     <select id="select" class="form-control m-b" name="type">
 										<option value="0">请选择</option>
 										<option {equal name="$row.type" value="2"}selected="selected"{/equal} value="2" >维修中</option>
-                                        <option {equal name="$row.type" value="3"}selected="selected"{/equal} value="3" >在途中</option>
+                                        <!--<option {equal name="$row.type" value="3"}selected="selected"{/equal} value="3" >在途中</option>-->
 										<option {equal name="$row.type" value="4"}selected="selected"{/equal} value="4" >已完成</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">公司名备注</label>
+                                <div class="col-sm-10">
+									<input type="text" name="username_note" class="form-control" value="{$row.username_note}" />
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">设备编号备注</label>
+                                <div class="col-sm-10">
+									<input type="text" name="eq_num_note" class="form-control" value="{$row.eq_num_note}" />
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
@@ -47,97 +211,119 @@
 							<div style="display:none;" class="form-group mydn">
                                 <label class="col-sm-2 control-label">回执</label>
                                 <div class="col-sm-10">
-									<textarea id="myinfo" name="answer" style="width:1000px;height:240px;">{$row.answer}</textarea>
+									<textarea id="myinfo" name="answer" style="width:100%; height:150px;"></textarea>
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
+							
+							<div style="display:none;" class="form-group mydn">
+                                <label class="col-sm-2 control-label">图片上传</label>
+								<div class="col-sm-10">
+									<!--    照片添加    -->
+									<div id="demo" class="demo"></div>
+								</div>
+
+                            </div>
+                            <div class="hr-line-dashed"></div>
+		
 							
 							<div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-2">
 									<input type="hidden" name="id" value="{$row.id}">
                                     <button class="btn btn-primary" type="submit">保存内容</button>
-                                    <button class="btn btn-white" type="submit">取消</button>
                                 </div>
                             </div>
 							<div class="hr-line-dashed"></div>
 							<div class="hr-line-dashed"></div>
 						</form>
-						<form class="form-horizontal">	
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">账户名</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="username" value="{$row.username}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-							<div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">联系人</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="contacts" value="{$row.contacts}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-							<div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">联系方式</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="contacts" value="{$row.phone}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-							<div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">email</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="email" value="{$row.email}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-							<div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">地区</label>
-                                <div class="col-sm-10">
-                                    <select class="form-control m-b" name="rid"  disabled="true">
-                                        <option {equal name="$row.rid" value="$rlist.id"}selected="selected"{/equal} value="{$rlist.id}">{$rlist.name}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-                            
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">设备型号</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="eq_id" value="{$row.eq_id}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-							<div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">设备编号</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="eq_num" value="{$row.eq_num}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">出厂日期</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="factory_date" value="{$row.factory_date}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">设备故障描述</label>
-                                <div class="col-sm-10">
-									<textarea id="myEditor" name="info" disabled="true" style="width:1000px;height:240px;">{$row.info}</textarea>
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-                            
-                        </form>
+						<div class="bccx_box">
+							<div class="bccx_tit">
+								<span>报修状态</span>
+							</div>
+							<div class="bccx_m">
+								<ul>
+									{if condition="isset($log1)"}
+									<li>
+										<span>{$log1.change_time|date="Y-m-d",###}</span><i>已受理</i>
+									</li>
+									{/if}
+									{if condition="isset($log2)"}
+									<li>
+										<span>{$log2.change_time|date="Y-m-d",###}</span><i>维修中</i>
+										<p>{$log2.state}</p>
+										{if condition="!empty($log2.img)"}
+											{foreach $log2.img as $vo}
+											<img src="__PUBLICIMG__/{$vo}" alt="">
+											{/foreach} 
+										{/if}
+									</li>
+									{/if}
+									<!--{if condition="isset($log3)"}
+									<li>
+										<span>{$log3.change_time|date="Y-m-d",###}</span><i>在途中</i>
+										<p>{$log3.state}</p>
+										{if condition="!empty($log3.img)"}
+											{foreach $log3.img as $vo}
+											<img src="__PUBLICIMG__/{$vo}" alt="">
+											{/foreach} 
+										{/if}
+									</li>
+									{/if}-->
+									{if condition="isset($log4)"}
+									<li>
+										<span>{$log4.change_time|date="Y-m-d",###}</span><i>已完成</i>{if condition="isset($row.rated_type)"}{/if}
+										<p>{$log4.state}</p>
+										{if condition="!empty($log4.img)"}
+											{foreach $log4.img as $vo}
+											<img src="__PUBLICIMG__/{$vo}" alt="">
+											{/foreach} 
+										{/if}
+										
+									</li>
+									{/if}
+								</ul>
+							</div>
+						</div>
+						
+						<div class="bccx_box">
+							<div class="bccx_tit">
+								<span>订单详情</span>
+							</div>
+							<div class="bccx_m">
+								<dl>
+									<dt><span>{$row.username}</span></dt>
+									<dd><span>{$row.prname} {$row.ciname} {$row.address}</span></dd>
+									<dd><span>联系人：{$row.contacts}</span></dd>
+									<dd><span>联系电话：{$row.phone}</span></dd>
+									<dd><span>邮箱：{$row.email}</span></dd>
+								</dl>
+								<dl>
+									<dt><span>订单编号</span></dt>
+									<dd><i>{$row.order_sn}</i></dd>
+								</dl>
+								<dl>
+									<dt><span>设备信息</span></dt>
+									<dd>
+										
+										<span>{if condition="isset($equipment.ecname)"}{$equipment.ecname}&nbsp;&nbsp;{/if}{$equipment.name}</span>
+									</dd>
+									<dd><span>设备编号：{$row.eq_num}</span></dd>
+									<dd><span>出厂日期：{$row.factory_date}</span></dd>
+								</dl>
+								<dl>
+									<dt><span>故障描述</span></dt>
+									<dd><p>{$row.info}</p></dd>
+									{if condition="isset($images)"}
+										{foreach $images as $vo}
+										<dd><img src="__PUBLICIMG__/{$vo}" alt=""></dd>	
+										{/foreach} 
+									{/if}
+									
+								</dl>
+							</div>
+						</div>
+						
+						
                     </div>
                 </div>
             </div>
@@ -151,26 +337,75 @@
     <!-- iCheck -->
 	{js href="__PUBLIC__/js/plugins/iCheck/icheck.min.js" /}
 	{js href="__PUBLIC__/third-party/template.min.js,__PUBLIC__/umeditor.config.js,__PUBLIC__/umeditor.min.js" /}
+	<!--图片弹出层样式 必要样式--><!-- 引用核心层插件 -->
+	{js href="__PUBLIC__/js/jquery-1.7.2.js,__PUBLIC__/core/zyFile.js" /}
+	<!-- 引用控制层插件 --><!-- 引用初始化JS -->
+	{js href="__PUBLIC__/control/js/zyUpload.js" /}
+	<script>
+		$(function(){
+			// 初始化插件
+			$("#demo").zyUpload({
+				width            :   "92%",                 // 宽度
+				height           :   "",                 // 宽度
+				itemWidth        :   "120px",                 // 文件项的宽度
+				itemHeight       :   "100px",                 // 文件项的高度
+				//url              :   "/upload/UploadAction",  // 上传文件的路径
+				url              :   "{:url('Delegate/imguplod')}",
+				multiple         :   true,                    // 是否可以多个文件上传
+				dragDrop         :   false,                    // 是否可以拖动上传文件
+				del              :   true,                    // 是否可以删除文件
+				finishDel        :   false,  				  // 是否在上传文件完成后删除预览
+				/* 外部获得的回调接口 */
+				onSelect: function(selectFiles, allFiles){    // 选择文件的回调方法  selectFile:当前选中的文件  allFiles:还没上传的全部文件
+					console.info("当前选择了以下文件：");
+					console.info(selectFiles);
+				},
+				onProgress: function(file, loaded, total){    // 正在上传的进度的回调方法
+					console.info("当前正在上传此文件：");
+					console.info(file.name);
+					console.info("进度等信息如下：");
+					console.info(loaded);
+					console.info(total);
+				},   
+				onDelete: function(file, files){              // 删除一个文件的回调方法 file:当前删除的文件  files:删除之后的文件
+					console.info("当前删除了此文件：");
+					console.info(file.name);
+				},
+				onSuccess: function(file, response){          // 文件上传成功的回调方法
+					console.info("此文件上传成功：");
+					console.info(file.name);
+				},
+				onFailure: function(file, response){          // 文件上传失败的回调方法
+					console.info("此文件上传失败：");
+					console.info(file.name);
+				},
+				onComplete: function(response){           	  // 上传完成的回调方法
+					console.info("文件上传完成");
+					console.info(response);
+				}
+			});
+			
+		});
+	</script>	
 	<script type="text/javascript">
-		//实例化编辑器
-		var um = UM.getEditor('myEditor',{
-			readonly:true
-		});
-		var um = UM.getEditor('myinfo',{
-		});
+		
 		
 		//选择下拉框
 		$("#select").change(function(){
 			var checkValue=$("#select").val();
-			if(checkValue == '4'){
+			if(checkValue != '0'){
 				$(".mydn").css("display","block");
 			}else{
 				$(".mydn").css("display","none");
 			}
-		});     
+		});   
 	</script>
     <script>
         $(document).ready(function () {
+			$("textarea").on("focus",function(){
+				this.scrollIntoView();
+			})  
+						$('#status_info').css('display','none');
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',

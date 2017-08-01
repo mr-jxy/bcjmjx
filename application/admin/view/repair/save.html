@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 
 
     <title> - 基本表单</title>
@@ -30,23 +30,35 @@
                     </div>
                     <div class="ibox-content">
                         <form method="post" action="{:url('Repair/save')}" class="form-horizontal">
+							
 							<div class="form-group">
-                                <label class="col-sm-2 control-label">选择地区</label>
+                                <label class="col-sm-2 control-label">负责区域</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control m-b" name="rid">
-										<option value="0">请选择</option>
-										{foreach $rlist as $vo} 
-                                        <option {equal name="$row.rid" value="$vo.id"}selected="selected"{/equal} value="{$vo.id}">{$vo.name}</option>
+									{foreach name="rids" key="k" item="v"}
+                                    <select id="select" class="form-control m-b" style="width:80%; float:left;" name="rid[]" required>
+										<option value="0" >请选择</option>
+										{foreach $rlist as $vo}
+										<option {equal name="$v" value="$vo.id"}selected="selected"{/equal} value="{$vo.id}" >{$vo.name}</option>
 										{/foreach}
-                                    </select>
+									</select>{eq name="$k" value="$rids_count-1"}<span id="jianhao" style="float:left; font-size:25px; font-weight:bold;"> － </span>{/eq}
+									{eq name="$k" value="$rids_count"}<span id="jiahao" style="float:right; font-size:25px; font-weight:bold;"> ＋ </span>{/eq}
+									{/foreach}
                                 </div>
                             </div>
-                            <div class="hr-line-dashed"></div>
+							<div class="hr-line-dashed"></div>
 							
 							<div class="form-group">
                                 <label class="col-sm-2 control-label">账户名</label>
                                 <div class="col-sm-10">
                                     <input type="text" name="username" value="{$row.username}" class="form-control">
+                                </div>
+                            </div>
+							<div class="hr-line-dashed"></div>
+							
+							<div class="form-group">
+                                <label class="col-sm-2 control-label">密码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="password" class="form-control" placeholder="如不修改可不填写">
                                 </div>
                             </div>
 							<div class="hr-line-dashed"></div>
@@ -103,6 +115,26 @@
 	{js href="__PUBLIC__/js/content.js" /}
     <!-- iCheck -->
 	{js href="__PUBLIC__/js/plugins/iCheck/icheck.min.js" /}
+	<script>
+	$('#jiahao').click(function(){
+		$('#select').after($('#select').clone(true));
+		if ($(this).prev().prev('#jianhao').length > 0 ) { 
+			 
+		}else{
+			$(this).prev().prev().after("<span id='jianhao' style='float:left; font-size:25px; font-weight:bold;'> － </span>");
+		} 
+	});
+	
+	</script>
+	<script>
+		$(document).ready(function(){
+			$(document).on("click","#jianhao",function(e){
+				$(this).prev().prev().after("<span id='jianhao' style='float:left; font-size:25px; font-weight:bold;'> － </span>");
+				$(this).prev().remove();
+				$(this).remove();				
+			});;	
+		});
+	</script>
     <script>
         $(document).ready(function () {
             $('.i-checks').iCheck({

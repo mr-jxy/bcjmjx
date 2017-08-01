@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+
+    <!--360浏览器优先以webkit内核解析-->
+
+
+    <title> - 主页</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+	{css href="__PUBLIC__/css/bootstrap.min.css,__PUBLIC__/css/font-awesome.min.css,__PUBLIC__/css/animate.css,__PUBLIC__/css/style.css" /}
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="row row-sm text-center">
+                            <div class="col-xs-6">
+                                <div class="panel padder-v item">
+									<a href="{:url('Delegate/n_list',array('type'=>1))}">
+                                    <div class="h1 text-info font-thin h1">{$count1}</div>
+                                    <span class="text-muted text-xs">已受理</span>
+                                    <div class="top text-right w-full">
+                                        <i class="fa fa-caret-down text-warning m-r-sm"></i>
+                                    </div>
+									</a>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="panel padder-v item bg-info">
+									<a href="{:url('Delegate/n_list',array('type'=>2))}">
+                                    <div class="h1 text-fff font-thin h1">{$count2}</div>
+                                    <span class="text-muted text-xs">维修中</span>
+                                    <div class="top text-right w-full">
+                                        <i class="fa fa-caret-down text-warning m-r-sm"></i>
+                                    </div>
+									</a>
+                                </div>
+                            </div>
+                            <!--<div class="col-xs-6">
+                                <div class="panel padder-v item bg-primary">
+									<a href="{:url('Delegate/n_list',array('type'=>3))}">
+                                    <div class="h1 text-fff font-thin h1">{$count3}</div>
+                                    <span class="text-muted text-xs">在途中</span>
+                                    <div class="top text-right w-full">
+                                        <i class="fa fa-caret-down text-warning m-r-sm"></i>
+                                    </div>
+									</a>
+                                </div>
+                            </div>-->
+                            <div class="col-xs-6">
+                                <div class="panel padder-v item">
+									<a href="{:url('Delegate/y_list')}">
+                                    <div class="font-thin h1">{$count4}</div>
+                                    <span class="text-muted text-xs">已完成</span>
+                                    <div class="bottom text-left">
+                                        <i class="fa fa-caret-up text-warning m-l-sm"></i>
+                                    </div>
+									</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                
+            </div>
+            
+        </div>
+    </div>
+    <!-- 全局js -->
+	{js href="__PUBLIC__/js/jquery.min.js,__PUBLIC__/js/bootstrap.min.js,__PUBLIC__/js/plugins/layer/layer.min.js"/}
+    <!-- Flot -->
+	{js href="__PUBLIC__/js/plugins/flot/jquery.flot.js,__PUBLIC__/js/plugins/flot/jquery.flot.tooltip.min.js"/}
+	{js href="__PUBLIC__/js/plugins/flot/jquery.flot.resize.js,__PUBLIC__/js/plugins/flot/jquery.flot.pie.js"/}
+    <!-- 自定义js -->
+	{js href="__PUBLIC__/js/content.js"/}
+    <!--flotdemo-->
+    <script type="text/javascript">
+        $(function() {
+            var container = $("#flot-line-chart-moving");
+            var maximum = container.outerWidth() / 2 || 300;
+            var data = [];
+
+            function getRandomData() {
+                if (data.length) {
+                    data = data.slice(1);
+                }
+                while (data.length < maximum) {
+                    var previous = data.length ? data[data.length - 1] : 50;
+                    var y = previous + Math.random() * 10 - 5;
+                    data.push(y < 0 ? 0 : y > 100 ? 100 : y);
+                }
+                var res = [];
+                for (var i = 0; i < data.length; ++i) {
+                    res.push([i, data[i]])
+                }
+                return res;
+            }
+            series = [{
+                data: getRandomData(),
+                lines: {
+                    fill: true
+                }
+            }];
+            var plot = $.plot(container, series, {
+                grid: {
+
+                    color: "#999999",
+                    tickColor: "#f7f9fb",
+                    borderWidth:0,
+                    minBorderMargin: 20,
+                    labelMargin: 10,
+                    backgroundColor: {
+                        colors: ["#ffffff", "#ffffff"]
+                    },
+                    margin: {
+                        top: 8,
+                        bottom: 20,
+                        left: 20
+                    },
+                    markings: function(axes) {
+                        var markings = [];
+                        var xaxis = axes.xaxis;
+                        for (var x = Math.floor(xaxis.min); x < xaxis.max; x += xaxis.tickSize * 2) {
+                            markings.push({
+                                xaxis: {
+                                    from: x,
+                                    to: x + xaxis.tickSize
+                                },
+                                color: "#fff"
+                            });
+                        }
+                        return markings;
+                    }
+                },
+                colors: ["#4fc5ea"],
+                xaxis: {
+                    tickFormatter: function() {
+                        return "";
+                    }
+                },
+                yaxis: {
+                    min: 0,
+                    max: 110
+                },
+                legend: {
+                    show: true
+                }
+            })
+
+           
+        });
+        
+    </script>
+</body>
+
+</html>

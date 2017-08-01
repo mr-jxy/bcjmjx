@@ -1,13 +1,159 @@
 <!DOCTYPE html>
 <html>
-
+<style>
+*{
+	margin:0 auto;
+	padding: 0;
+	font-family: Microsoft Yahei;
+	}
+ol,ul,li{
+	list-style:none;
+	}
+img{
+	border:0;
+	display: block;
+	}
+i,s,em {
+	font-style: normal;
+	text-decoration: none;
+	}
+body {
+	max-width: 100%;
+	margin: 0 auto;
+}
+.footable-odd th {
+	background: #fff
+}
+.logo {
+	text-align: center;
+	font-size: 20px;
+	color: #003F7E;
+}
+.logo .logoimg {
+	width: 40%;
+	margin: 10px auto;
+	display: block
+}
+.logo p {
+	margin-top: 20px;
+	font-size: 1.5em;
+}
+.logo .ico {
+	width: 30%;
+	margin: 20px auto;
+	display: block
+}
+.m-b {
+	margin-bottom: 0px;
+}
+.hr-line-dashed {
+	border-top: 1px dashed #e7eaec;
+	color: #FFF;
+	background-color: #FFF;
+	height: 1px;
+	margin: 5px 0;
+}
+	.bccx_box {
+		width: 94%;
+		background: #fff;
+		border: 1px solid #dee5e7;
+		margin-top: 20px;
+	}
+	.bccx_tit {
+		background: #f6f8f8;
+		height: 40px;
+		line-height: 40px;
+		width: 100%;
+		border-bottom: 1px solid #dee5e7;
+	}
+	.bccx_tit span {
+		margin-left: 3%;
+		color: #000;
+		font-size: 1.2em;
+	}
+	.bccx_m {
+		width: 94%;
+		position: relative;
+	}
+	.bccx_m a.bddh {
+		position: absolute;
+		right: 3%;
+		top: 28px;
+		display: block;
+		padding: 5px 10px;
+		background: #7468bd;
+		border-radius: 3px;
+		color: #fff;
+	}
+	.bccx_m dl {
+		padding-top: 10px;
+	}
+	.bccx_m dl dt {
+		font-size: 1.3em;
+		color: #000;
+		line-height: 35px;
+	}
+	.bccx_m dl dd {
+		font-size: 1.1em;
+		color: #000;
+		line-height: 30px;
+	}
+	.bccx_m dl dd i {
+		font-size: 1.2em;
+		color: #003f7e;
+		line-height: 30px;
+	}
+	.bccx_m dl dd img {
+		margin: 20px auto;
+		max-width: 80%;
+	}
+	.bccx_m ul {
+	}
+	.bccx_m ul li {
+		border-top: 1px solid #e7eaec;
+		padding: 10px 0;
+	}
+	.bccx_m ul li:first-child {
+		border-top: none;
+	}
+	.bccx_m ul li span {
+		font-size: 1.1em;
+		color: #003f7e;
+		line-height: 30px;
+	}
+	.bccx_m ul li i {
+		font-size: 1.1em;
+		color: #003f7e;
+		line-height: 30px;
+		margin-left: 10px;
+	}
+	.bccx_m ul li p {
+		font-size: 1em;
+		color: #595959;
+		line-height: 20px;
+		margin-top: 10px;
+	}
+	.bccx_m ul li img {
+		margin: 20px auto;
+		max-width: 80%;
+	}
+	.ddpj {
+		float:right;
+		line-height:30px;
+		background:#7468bd;
+		color:#fff;
+		padding:0 10px;
+		border-radius:3px;
+		margin-right:5%;
+	}
+</style>
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 
 
-    <title> - 基本表单</title>
+    <title> - 表单</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 
@@ -30,11 +176,11 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form method="post" action="{:url('Delegate/y_save')}" class="form-horizontal">
+                        <form method="post" action="{:url('Delegate/y_save')}" class="form-horizontal" enctype="multipart/form-data">
 							<div class="form-group mydn">
                                 <label class="col-sm-2 control-label">回执</label>
                                 <div class="col-sm-10">
-									<textarea id="myinfo" name="answer" style="width:1000px;height:240px;">{$row.answer}</textarea>
+									<textarea id="myinfo" name="answer" style="width:100%; height:150px;">{$state}</textarea>
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
@@ -43,96 +189,104 @@
                                 <div class="col-sm-4 col-sm-offset-2">
 									<input type="hidden" name="id" value="{$row.id}">
                                     <button class="btn btn-primary" type="submit">保存内容</button>
-                                    <button class="btn btn-white" type="submit">取消</button>
                                 </div>
                             </div>
 							<div class="hr-line-dashed"></div>
 							<div class="hr-line-dashed"></div>
 						</form>
-						<form class="form-horizontal">
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">完成时间</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="endtime" value="{$row.endtime|date='y-m-d',###}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-							<div class="hr-line-dashed"></div>
-								
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">账户名</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="username" value="{$row.username}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-							<div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">联系人</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="contacts" value="{$row.contacts}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-							<div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">联系方式</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="contacts" value="{$row.phone}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-							<div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">email</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="email" value="{$row.email}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-							<div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">地区</label>
-                                <div class="col-sm-10">
-                                    <select class="form-control m-b" name="rid"  disabled="true">
-                                        <option {equal name="$row.rid" value="$rlist.id"}selected="selected"{/equal} value="{$rlist.id}">{$rlist.name}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-                            
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">设备型号</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="eq_id" value="{$row.eq_id}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-							<div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">设备编号</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="eq_num" value="{$row.eq_num}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">出厂日期</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="factory_date" value="{$row.factory_date}" disabled="true" class="form-control">
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-							
-							<div class="form-group">
-                                <label class="col-sm-2 control-label">设备故障描述</label>
-                                <div class="col-sm-10">
-									<textarea id="myEditor" name="info" disabled="true" style="width:1000px;height:240px;">{$row.info}</textarea>
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-                            
-                        </form>
+						<div class="bccx_box">
+							<div class="bccx_tit">
+								<span>报修状态</span>
+							</div>
+							<div class="bccx_m">
+								<ul>
+									{if condition="isset($log1)"}
+									<li>
+										<span>{$log1.change_time|date="Y-m-d",###}</span><i>已受理</i>
+									</li>
+									{/if}
+									{if condition="isset($log2)"}
+									<li>
+										<span>{$log2.change_time|date="Y-m-d",###}</span><i>维修中</i>
+										<p>{$log2.state}</p>
+										{if condition="!empty($log2.img)"}
+											{foreach $log2.img as $vo}
+											<img src="__PUBLICIMG__/{$vo}" alt="">
+											{/foreach} 
+										{/if}
+									</li>
+									{/if}
+									<!--{if condition="isset($log3)"}
+									<li>
+										<span>{$log3.change_time|date="Y-m-d",###}</span><i>在途中</i>
+										<p>{$log3.state}</p>
+										{if condition="!empty($log3.img)"}
+											{foreach $log3.img as $vo}
+											<img src="__PUBLICIMG__/{$vo}" alt="">
+											{/foreach} 
+										{/if}
+									</li>
+									{/if}-->
+									{if condition="isset($log4)"}
+									<li>
+										<span>{$log4.change_time|date="Y-m-d",###}</span><i>已完成</i>
+										<p>{$log4.state}</p>
+										{if condition="!empty($log4.img)"}
+											{foreach $log4.img as $vo}
+											<img src="__PUBLICIMG__/{$vo}" alt="">
+											{/foreach} 
+										{/if}
+									</li>
+									{/if}
+									{if condition="isset($rated)"}
+									<li>
+										<span>评论</span><i>{$rated.mark}分</i>
+										<p>{$rated.content}</p>
+					
+									</li>
+									{/if}
+								</ul>
+							</div>
+						</div>
+						
+						<div class="bccx_box">
+							<div class="bccx_tit">
+								<span>订单详情</span>
+							</div>
+							<div class="bccx_m">
+								<dl>
+									<dt><span>{$row.username}</span></dt>
+									<dd><span>{$row.prname} {$row.ciname} {$row.address}</span></dd>
+									<dd><span>联系人：{$row.contacts}</span></dd>
+									<dd><span>联系电话：{$row.phone}</span></dd>
+									<dd><span>邮箱：{$row.email}</span></dd>
+								</dl>
+								<dl>
+									<dt><span>订单编号</span></dt>
+									<dd><i>{$row.order_sn}</i></dd>
+								</dl>
+								<dl>
+									<dt><span>设备信息</span></dt>
+									<dd>
+										
+										<span>{if condition="isset($equipment.ecname)"}{$equipment.ecname}&nbsp;&nbsp;{/if}{$equipment.name}</span>
+									</dd>
+									<dd><span>设备编号：{$row.eq_num}</span></dd>
+									<dd><span>出厂日期：{$row.factory_date}</span></dd>
+								</dl>
+								<dl>
+									<dt><span>故障描述</span></dt>
+									<dd><p>{$row.info}</p></dd>
+									{if condition="isset($images)"}
+										{foreach $images as $vo}
+										<dd><img src="__PUBLICIMG__/{$vo}" alt=""></dd>	
+										{/foreach} 
+									{/if}
+									
+								</dl>
+							</div>
+						</div>
+						
                     </div>
                 </div>
             </div>
@@ -148,14 +302,11 @@
 	{js href="__PUBLIC__/third-party/template.min.js,__PUBLIC__/umeditor.config.js,__PUBLIC__/umeditor.min.js" /}
 	<script type="text/javascript">
 		//实例化编辑器
-		var um = UM.getEditor('myEditor',{
-			readonly:true
-		});
-		var um = UM.getEditor('myinfo',{
-		});   
+		  
 	</script>
     <script>
         $(document).ready(function () {
+						$('#status_info').css('display','none');
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green',
                 radioClass: 'iradio_square-green',
